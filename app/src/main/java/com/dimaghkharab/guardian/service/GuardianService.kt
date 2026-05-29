@@ -71,7 +71,12 @@ class GuardianService : Service() {
                         addAction(Intent.ACTION_POWER_CONNECTED)
                         addAction(Intent.ACTION_POWER_DISCONNECTED)
                     }
-                    registerReceiver(chargingReceiver, filter)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        registerReceiver(chargingReceiver, filter, Context.RECEIVER_EXPORTED)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        registerReceiver(chargingReceiver, filter)
+                    }
                 }
                 handler.post(checkRunnable)
             }
@@ -115,7 +120,12 @@ class GuardianService : Service() {
 
     private fun checkBatteryThresholds() {
         try {
-            val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            val batteryIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED), Context.RECEIVER_NOT_EXPORTED)
+            } else {
+                @Suppress("DEPRECATION")
+                registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            }
             val level = batteryIntent?.getIntExtra("level", 0) ?: return
             runBlocking {
                 val db = AppDatabase.getInstance(this@GuardianService)

@@ -40,7 +40,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "guardian_database"
-            ).build()
+            ).fallbackToDestructiveMigration().build()
         }
     }
 }

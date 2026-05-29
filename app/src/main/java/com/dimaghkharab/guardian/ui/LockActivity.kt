@@ -14,8 +14,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.util.PrefsManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
 
 class LockActivity : AppCompatActivity() {
@@ -30,6 +34,7 @@ class LockActivity : AppCompatActivity() {
     private var attemptCount = 0
     private val maxAttempts = 5
     private var isLockedOut = false
+    private var lockoutTimer: CountDownTimer? = null
 
     private var biometricPrompt: BiometricPrompt? = null
 
@@ -98,18 +103,30 @@ class LockActivity : AppCompatActivity() {
         }
 
         val storedHash = prefsManager.getPasswordHash()
-        if (storedHash != null && BCrypt.checkpw(inputPin, storedHash)) {
-            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, MainActivity::class.java))
+        if (storedHash == null) {
+            Toast.makeText(this, "No PIN configured", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, SetupActivity::class.java))
             finish()
-        } else {
-            attemptCount++
-            updateAttemptsDisplay()
-            etPin.setText("")
-            Toast.makeText(this, "Incorrect PIN", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-            if (attemptCount >= maxAttempts) {
-                lockOut()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val match = BCrypt.checkpw(inputPin, storedHash)
+            withContext(Dispatchers.Main) {
+                if (match) {
+                    Toast.makeText(this@LockActivity, "Welcome", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@LockActivity, MainActivity::class.java))
+                    finish()
+                } else {
+                    attemptCount++
+                    updateAttemptsDisplay()
+                    etPin.setText("")
+                    Toast.makeText(this@LockActivity, "Incorrect PIN", Toast.LENGTH_SHORT).show()
+
+                    if (attemptCount >= maxAttempts) {
+                        lockOut()
+                    }
+                }
             }
         }
     }
@@ -127,18 +144,16 @@ class LockActivity : AppCompatActivity() {
         btnUnlock.isEnabled = false
         tvAttempts.text = "Too many attempts. Try again in 30s"
 
-        object : CountDownTimer(30000, 1000) {
+        lockoutTimer = object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val seconds = millisUntilFinished / 1000
-                tvAttempts.text = "Try again in ${seconds}s"
+                tvAttempts.text = "Try again in ${millisUntilFinished / 1000}s"
             }
 
             override fun onFinish() {
                 isLockedOut = false
                 attemptCount = 0
-                btnUnlock.isEnabled = true
+                if (::btnUnlock.isInitialized) btnUnlock.isEnabled = true
                 updateAttemptsDisplay()
-                Toast.makeText(this@LockActivity, "You can try again", Toast.LENGTH_SHORT).show()
             }
         }.start()
     }
@@ -331,14 +346,23 @@ class LockActivity : AppCompatActivity() {
                     return@setPositiveButton
                 }
 
-                val hashedPin = BCrypt.hashpw(newPin, BCrypt.gensalt())
-                prefsManager.setPasswordHash(hashedPin)
-                attemptCount = 0
-                updateAttemptsDisplay()
-                Toast.makeText(this, "PIN reset successfully", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val hashedPin = BCrypt.hashpw(newPin, BCrypt.gensalt())
+                    withContext(Dispatchers.Main) {
+                        prefsManager.setPasswordHash(hashedPin)
+                        attemptCount = 0
+                        updateAttemptsDisplay()
+                        Toast.makeText(this@LockActivity, "PIN reset successfully", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    override fun onDestroy() {
+        lockoutTimer?.cancel()
+        super.onDestroy()
     }
 
     private fun setupBiometric() {

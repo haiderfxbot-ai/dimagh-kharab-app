@@ -185,7 +185,7 @@
             android:layout_rowWeight="1"
             android:backgroundTint="#16213E"
             android:contentDescription="Backspace"
-            android:src="@android:drawable/ic_menu_revert"
+            android:src="@drawable/ic_revert"
             android:tint="#FFFFFF" />
 
     </GridLayout>

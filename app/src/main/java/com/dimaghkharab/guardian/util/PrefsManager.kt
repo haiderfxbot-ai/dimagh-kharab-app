@@ -53,7 +53,7 @@ class PrefsManager private constructor(context: Context) {
     }
 
     fun setPasswordHash(hash: String) {
-        prefs.edit().putString(KEY_PASSWORD_HASH, hash).apply()
+        prefs.edit().putString(KEY_PASSWORD_HASH, hash).commit()
     }
 
     fun getPasswordHash(): String? {
@@ -61,11 +61,11 @@ class PrefsManager private constructor(context: Context) {
     }
 
     fun clearPassword() {
-        prefs.edit().remove(KEY_PASSWORD_HASH).apply()
+        prefs.edit().remove(KEY_PASSWORD_HASH).commit()
     }
 
     fun setPuzzleType(type: String) {
-        prefs.edit().putString(KEY_PUZZLE_TYPE, type).apply()
+        prefs.edit().putString(KEY_PUZZLE_TYPE, type).commit()
     }
 
     fun getPuzzleType(): String {
@@ -73,7 +73,7 @@ class PrefsManager private constructor(context: Context) {
     }
 
     fun setPuzzleAnswer(answer: String) {
-        prefs.edit().putString(KEY_PUZZLE_ANSWER, answer).apply()
+        prefs.edit().putString(KEY_PUZZLE_ANSWER, answer).commit()
     }
 
     fun getPuzzleAnswer(): String? {
@@ -81,7 +81,7 @@ class PrefsManager private constructor(context: Context) {
     }
 
     fun setPuzzleQuestion(question: String) {
-        prefs.edit().putString(KEY_PUZZLE_QUESTION, question).apply()
+        prefs.edit().putString(KEY_PUZZLE_QUESTION, question).commit()
     }
 
     fun getPuzzleQuestion(): String? {

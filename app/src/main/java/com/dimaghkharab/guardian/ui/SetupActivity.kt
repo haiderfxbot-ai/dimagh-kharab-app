@@ -10,8 +10,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.util.PrefsManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
 
 class SetupActivity : AppCompatActivity() {
@@ -258,15 +262,18 @@ class SetupActivity : AppCompatActivity() {
             }
         }
 
-        val hashedPin = BCrypt.hashpw(pin, BCrypt.gensalt())
+        lifecycleScope.launch(Dispatchers.IO) {
+            val hashedPin = BCrypt.hashpw(pin, BCrypt.gensalt())
+            withContext(Dispatchers.Main) {
+                prefsManager.setPasswordHash(hashedPin)
+                prefsManager.setPuzzleType(selectedPuzzleType)
+                prefsManager.setPuzzleAnswer(puzzleAnswer)
+                prefsManager.setPuzzleQuestion(puzzleQuestion)
 
-        prefsManager.setPasswordHash(hashedPin)
-        prefsManager.setPuzzleType(selectedPuzzleType)
-        prefsManager.setPuzzleAnswer(puzzleAnswer)
-        prefsManager.setPuzzleQuestion(puzzleQuestion)
-
-        Toast.makeText(this, "Setup Complete", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+                Toast.makeText(this@SetupActivity, "Setup Complete", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@SetupActivity, MainActivity::class.java))
+                finish()
+            }
+        }
     }
 }

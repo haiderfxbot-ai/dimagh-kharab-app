@@ -1,8 +1,9 @@
 package com.dimaghkharab.guardian.util
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -95,12 +96,11 @@ class CameraCapture(context: Context) {
             cameraProvider?.unbindAll()
             cameraProvider = null
             imageCapture = null
-            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            Handler(Looper.getMainLooper()).post {
+                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            }
         } catch (e: Exception) {
             Log.e("CameraCapture", "Error releasing camera", e)
-        }
-        if (!executor.isShutdown) {
-            executor.shutdown()
         }
     }
 }

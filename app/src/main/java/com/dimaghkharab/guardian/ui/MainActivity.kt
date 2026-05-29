@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
     private var thresholdAdapter: ThresholdAdapter? = null
     private var thresholds: MutableList<BatteryThreshold> = mutableListOf()
     private var isServiceRunning = false
+    private var thresholdsJob: kotlinx.coroutines.Job? = null
 
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
@@ -134,9 +135,10 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Permissions Required")
             .setMessage("This app needs camera, storage, and notification permissions to function properly.")
             .setPositiveButton("Grant") { _, _ ->
-                PermissionHelper.requestCameraPermission(this, PERMISSION_REQUEST_CODE)
-                PermissionHelper.requestStoragePermission(this, PERMISSION_REQUEST_CODE)
-                PermissionHelper.requestNotificationPermission(this, PERMISSION_REQUEST_CODE)
+                val perms = PermissionHelper.getMissingPermissions(this)
+                if (perms.isNotEmpty()) {
+                    PermissionHelper.requestPermissions(this, perms.toTypedArray(), PERMISSION_REQUEST_CODE)
+                }
             }
             .setNegativeButton("Exit") { _, _ -> finish() }
             .setCancelable(false)
@@ -278,7 +280,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadThresholds() {
-        lifecycleScope.launch {
+        thresholdsJob?.cancel()
+        thresholdsJob = lifecycleScope.launch {
             db.batteryThresholdDao().getAll().collect { list ->
                 thresholds.clear()
                 thresholds.addAll(list)

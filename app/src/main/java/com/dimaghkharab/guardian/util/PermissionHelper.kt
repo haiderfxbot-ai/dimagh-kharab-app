@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Process
 import android.provider.Settings
@@ -37,6 +38,32 @@ object PermissionHelper {
         return storageOk && cameraOk && notificationOk
     }
 
+    fun getMissingPermissions(context: Context): List<String> {
+        val missing = mutableListOf<String>()
+        val storagePerm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+        if (ContextCompat.checkSelfPermission(context, storagePerm) != PackageManager.PERMISSION_GRANTED) {
+            missing.add(storagePerm)
+        }
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            missing.add(Manifest.permission.CAMERA)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                missing.add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+        return missing
+    }
+
+    fun requestPermissions(activity: Activity, permissions: Array<String>, requestCode: Int) {
+        ActivityCompat.requestPermissions(activity, permissions, requestCode)
+    }
+
+    @Deprecated("Use getMissingPermissions + requestPermissions instead")
     fun requestStoragePermission(activity: Activity, requestCode: Int) {
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Manifest.permission.READ_MEDIA_IMAGES
@@ -46,12 +73,14 @@ object PermissionHelper {
         ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
     }
 
+    @Deprecated("Use getMissingPermissions + requestPermissions instead")
     fun requestCameraPermission(activity: Activity, requestCode: Int) {
         ActivityCompat.requestPermissions(
             activity, arrayOf(Manifest.permission.CAMERA), requestCode
         )
     }
 
+    @Deprecated("Use getMissingPermissions + requestPermissions instead")
     fun requestNotificationPermission(activity: Activity, requestCode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityCompat.requestPermissions(
