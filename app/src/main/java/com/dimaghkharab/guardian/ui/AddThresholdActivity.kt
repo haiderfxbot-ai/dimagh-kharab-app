@@ -10,14 +10,13 @@ import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.data.AppDatabase
 import com.dimaghkharab.guardian.data.entity.BatteryThreshold
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
