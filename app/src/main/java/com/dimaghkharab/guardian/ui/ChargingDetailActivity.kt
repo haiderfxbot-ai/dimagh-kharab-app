@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.data.AppDatabase
 import com.dimaghkharab.guardian.data.entity.SoundProfile
 import com.dimaghkharab.guardian.util.PrefsManager
@@ -113,8 +113,6 @@ class ChargingDetailActivity : AppCompatActivity() {
         setupAudioFileRecycler()
         loadAudioFiles()
         loadExistingProfile()
-
-        findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
     }
 
     override fun onDestroy() {

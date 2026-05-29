@@ -15,5 +15,7 @@ data class BatteryThreshold(
     @ColumnInfo(name = "is_active")
     val isActive: Boolean = true,
     @ColumnInfo(name = "triggered_today")
-    val triggeredToday: Boolean = false
+    var triggeredToday: Boolean = false,
+    @ColumnInfo(name = "last_triggered_at")
+    var lastTriggeredAt: Long = 0L
 )

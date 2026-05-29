@@ -49,7 +49,7 @@ class AccessibilityWatcher : AccessibilityService() {
                 appName = getAppName(previousPackage!!),
                 date = getTodayDate()
             )
-            AppDatabase.getDatabase(this).usageLogDao().insert(usageLog)
+            AppDatabase.getInstance(this).usageLogDao().insert(usageLog)
         }
 
         if (currentPackageChanged(packageName)) {

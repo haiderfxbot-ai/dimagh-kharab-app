@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.util.PrefsManager
 import org.mindrot.jbcrypt.BCrypt
 

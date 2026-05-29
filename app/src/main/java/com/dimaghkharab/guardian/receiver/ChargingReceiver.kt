@@ -9,7 +9,7 @@ import com.dimaghkharab.guardian.util.SoundPlayer
 class ChargingReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val db = AppDatabase.getDatabase(context)
+        val db = AppDatabase.getInstance(context)
         val player = SoundPlayer(context)
 
         when (intent.action) {

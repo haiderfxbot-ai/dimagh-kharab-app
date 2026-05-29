@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="@+id/tvPhotoCount" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvIntruderPhotos"
+            android:id="@+id/rvPhotos"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPhotoCount" />
 
     <TextView
-        android:id="@+id/tvEmpty"
+            android:id="@+id/emptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No intruders detected"

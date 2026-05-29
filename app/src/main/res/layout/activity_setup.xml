@@ -96,7 +96,7 @@
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <RadioGroup
-            android:id="@+id/rgRecovery"
+            android:id="@+id/radioGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvRecoveryTitle">
 
             <RadioButton
-                android:id="@+id/rbSecurityQuestion"
+                android:id="@+id/rbCustomQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"
@@ -124,7 +124,7 @@
                 android:theme="@style/Theme.DimaghKharab" />
 
             <RadioButton
-                android:id="@+id/rbColorPattern"
+                android:id="@+id/rbPattern"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"
@@ -134,121 +134,14 @@
 
         </RadioGroup>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilQuestion"
+        <FrameLayout
+            android:id="@+id/puzzleContentContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rgRecovery"
-            app:boxBackgroundColor="#16213E"
-            app:boxStrokeColor="#6C63FF"
-            app:hintTextColor="#B0B0B0">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etQuestion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Security Question"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#B0B0B0" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilAnswer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilQuestion"
-            app:boxBackgroundColor="#16213E"
-            app:boxStrokeColor="#6C63FF"
-            app:hintTextColor="#B0B0B0">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etAnswer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Answer"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#B0B0B0" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilMathAnswer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rgRecovery"
-            app:boxBackgroundColor="#16213E"
-            app:boxStrokeColor="#6C63FF"
-            app:hintTextColor="#B0B0B0">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etMathAnswer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Math Answer"
-                android:inputType="number"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#B0B0B0" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutPattern"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rgRecovery">
-
-            <ImageView
-                android:id="@+id/ivRed"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/circle_red"
-                android:importantForAccessibility="no" />
-
-            <ImageView
-                android:id="@+id/ivBlue"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/circle_blue"
-                android:importantForAccessibility="no" />
-
-            <ImageView
-                android:id="@+id/ivGreen"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/circle_green"
-                android:importantForAccessibility="no" />
-
-            <ImageView
-                android:id="@+id/ivYellow"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="8dp"
-                android:background="@drawable/circle_yellow"
-                android:importantForAccessibility="no" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
         <Button
             android:id="@+id/btnSave"
@@ -263,7 +156,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutPattern" />
+            app:layout_constraintTop_toBottomOf="@+id/puzzleContentContainer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

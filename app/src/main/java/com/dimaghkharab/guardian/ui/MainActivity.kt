@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.dimaghkharab.guardian.data.AppDatabase
+import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.data.entity.BatteryThreshold
 import com.dimaghkharab.guardian.service.GuardianService
 import com.dimaghkharab.guardian.util.PermissionHelper
@@ -46,14 +47,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var contentContainer: FrameLayout
-
-    private lateinit var tvBatteryPercent: TextView
-    private lateinit var vServiceStatus: View
-    private lateinit var cardChargingSound: Button
-    private lateinit var cardDisconnectSound: Button
-    private lateinit var rvThresholds: RecyclerView
-    private lateinit var fabAddThreshold: FloatingActionButton
     private lateinit var btnStartStop: Button
+
+    private var tvBatteryPercent: TextView? = null
+    private var vServiceStatus: View? = null
+    private var cardChargingSound: Button? = null
+    private var cardDisconnectSound: Button? = null
+    private var rvThresholds: RecyclerView? = null
+    private var fabAddThreshold: FloatingActionButton? = null
 
     private val handler = Handler(Looper.getMainLooper())
     private val batteryUpdateRunnable = object : Runnable {
@@ -78,39 +79,18 @@ class MainActivity : AppCompatActivity() {
         prefsManager = PrefsManager.getInstance(this)
         db = AppDatabase.getInstance(this)
 
-        bottomNav = findViewById(R.id.bottomNavigation)
+        bottomNav = findViewById(R.id.bottomNav)
         contentContainer = findViewById(R.id.contentContainer)
-        tvBatteryPercent = findViewById(R.id.tvBatteryPercent)
-        vServiceStatus = findViewById(R.id.vServiceStatus)
-        cardChargingSound = findViewById(R.id.cardChargingSound)
-        cardDisconnectSound = findViewById(R.id.cardDisconnectSound)
-        rvThresholds = findViewById(R.id.rvThresholds)
-        fabAddThreshold = findViewById(R.id.fabAddThreshold)
         btnStartStop = findViewById(R.id.btnStartStop)
 
         checkPermissions()
 
         isServiceRunning = prefsManager.isServiceRunning()
-        updateServiceStatus()
 
         setupBottomNav()
-        setupChargingTab()
-        setupThresholdRecycler()
+        showChargingTab()
 
-        cardChargingSound.setOnClickListener {
-            startActivity(ChargingDetailActivity.newIntent(this, "CONNECT"))
-        }
-        cardDisconnectSound.setOnClickListener {
-            startActivity(ChargingDetailActivity.newIntent(this, "DISCONNECT"))
-        }
-
-        fabAddThreshold.setOnClickListener {
-            startActivity(Intent(this, AddThresholdActivity::class.java))
-        }
-
-        btnStartStop.setOnClickListener {
-            toggleService()
-        }
+        btnStartStop.setOnClickListener { toggleService() }
 
         batteryUpdateRunnable.run()
 
@@ -166,7 +146,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNav() {
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_charging -> showChargingTab()
+                R.id.nav_charging -> {
+                    showChargingTab()
+                    true
+                }
                 R.id.nav_intruder -> {
                     startActivity(Intent(this, IntruderActivity::class.java))
                     true
@@ -181,39 +164,34 @@ class MainActivity : AppCompatActivity() {
         bottomNav.selectedItemId = R.id.nav_charging
     }
 
-    private fun setupChargingTab() {
-        showChargingTab()
-    }
-
-    private fun showChargingTab(): Boolean {
+    private fun showChargingTab() {
         contentContainer.removeAllViews()
-        layoutInflater.inflate(R.layout.fragment_charging, contentContainer)
+        val view = layoutInflater.inflate(R.layout.fragment_charging, contentContainer)
 
-        tvBatteryPercent = contentContainer.findViewById(R.id.tvBatteryPercent)
-        vServiceStatus = contentContainer.findViewById(R.id.vServiceStatus)
-        cardChargingSound = contentContainer.findViewById(R.id.cardChargingSound)
-        cardDisconnectSound = contentContainer.findViewById(R.id.cardDisconnectSound)
-        rvThresholds = contentContainer.findViewById(R.id.rvThresholds)
-        fabAddThreshold = contentContainer.findViewById(R.id.fabAddThreshold)
+        tvBatteryPercent = view.findViewById(R.id.tvBatteryPercent)
+        vServiceStatus = view.findViewById(R.id.vServiceStatus)
+        cardChargingSound = view.findViewById(R.id.cardChargingSound)
+        cardDisconnectSound = view.findViewById(R.id.cardDisconnectSound)
+        rvThresholds = view.findViewById(R.id.rvThresholds)
+        fabAddThreshold = view.findViewById(R.id.fabAddThreshold)
 
         isServiceRunning = prefsManager.isServiceRunning()
         updateServiceStatus()
         updateBatteryLevel()
 
-        cardChargingSound.setOnClickListener {
+        cardChargingSound?.setOnClickListener {
             startActivity(ChargingDetailActivity.newIntent(this, "CONNECT"))
         }
-        cardDisconnectSound.setOnClickListener {
+        cardDisconnectSound?.setOnClickListener {
             startActivity(ChargingDetailActivity.newIntent(this, "DISCONNECT"))
         }
 
-        fabAddThreshold.setOnClickListener {
+        fabAddThreshold?.setOnClickListener {
             startActivity(Intent(this, AddThresholdActivity::class.java))
         }
 
         setupThresholdRecycler()
         loadThresholds()
-        return true
     }
 
     private fun updateBatteryLevel() {
@@ -222,9 +200,9 @@ class MainActivity : AppCompatActivity() {
             val level = batteryIntent?.getIntExtra("level", 0) ?: 0
             val scale = batteryIntent?.getIntExtra("scale", 100) ?: 100
             val percent = (level.toFloat() / scale.toFloat() * 100).toInt()
-            tvBatteryPercent.text = "$percent%"
+            tvBatteryPercent?.text = "$percent%"
         } catch (e: Exception) {
-            tvBatteryPercent.text = "N/A"
+            tvBatteryPercent?.text = "N/A"
         }
     }
 
@@ -235,7 +213,7 @@ class MainActivity : AppCompatActivity() {
             setColor(color)
             setSize(24, 24)
         }
-        vServiceStatus.background = shape
+        vServiceStatus?.background = shape
         btnStartStop.text = if (isServiceRunning) "Stop Service" else "Start Service"
     }
 
@@ -266,8 +244,8 @@ class MainActivity : AppCompatActivity() {
                 loadThresholds()
             }
         }
-        rvThresholds.adapter = thresholdAdapter
-        rvThresholds.itemAnimator = DefaultItemAnimator()
+        rvThresholds?.adapter = thresholdAdapter
+        rvThresholds?.itemAnimator = DefaultItemAnimator()
 
         val swipeCallback = object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -296,7 +274,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        ItemTouchHelper(swipeCallback).attachToRecyclerView(rvThresholds)
+        rvThresholds?.let { ItemTouchHelper(swipeCallback).attachToRecyclerView(it) }
     }
 
     private fun loadThresholds() {

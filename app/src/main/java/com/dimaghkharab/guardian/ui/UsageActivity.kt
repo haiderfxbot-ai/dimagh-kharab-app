@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.data.AppDatabase
 import com.dimaghkharab.guardian.data.entity.UsageLog
 import kotlinx.coroutines.Dispatchers
@@ -62,8 +63,6 @@ class UsageActivity : AppCompatActivity() {
         btnSortDuration = findViewById(R.id.btnSortDuration)
         btnSortAlpha = findViewById(R.id.btnSortAlpha)
         btnSortTime = findViewById(R.id.btnSortTime)
-
-        findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
 
         selectedDate = dateQueryFormat.format(Date())
         updateDateButtonText()

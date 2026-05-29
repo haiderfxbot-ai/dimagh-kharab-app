@@ -7,13 +7,14 @@ import android.provider.OpenableColumns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.data.AppDatabase
 import com.dimaghkharab.guardian.data.entity.BatteryThreshold
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +27,8 @@ class AddThresholdActivity : AppCompatActivity() {
     private lateinit var db: AppDatabase
 
     private lateinit var tvPercent: TextView
-    private lateinit var btnPlus: ImageButton
-    private lateinit var btnMinus: ImageButton
+    private lateinit var btnPlus: Button
+    private lateinit var btnMinus: Button
     private lateinit var seekBar: SeekBar
     private lateinit var etName: EditText
     private lateinit var btnSelectAudio: Button
@@ -50,13 +51,13 @@ class AddThresholdActivity : AppCompatActivity() {
 
         db = AppDatabase.getInstance(this)
 
-        tvPercent = findViewById(R.id.tvPercent)
+        tvPercent = findViewById(R.id.tvPercentage)
         btnPlus = findViewById(R.id.btnPlus)
         btnMinus = findViewById(R.id.btnMinus)
-        seekBar = findViewById(R.id.seekBar)
-        etName = findViewById(R.id.etName)
+        seekBar = findViewById(R.id.seekThreshold)
+        etName = findViewById(R.id.etThresholdName)
         btnSelectAudio = findViewById(R.id.btnSelectAudio)
-        tvSelectedFile = findViewById(R.id.tvSelectedFile)
+        tvSelectedFile = findViewById(R.id.tvAudioPath)
         seekVolume = findViewById(R.id.seekVolume)
         tvVolumeLabel = findViewById(R.id.tvVolumeLabel)
         btnSave = findViewById(R.id.btnSave)
@@ -105,8 +106,6 @@ class AddThresholdActivity : AppCompatActivity() {
         btnSelectAudio.setOnClickListener { pickAudioFile() }
 
         btnSave.setOnClickListener { saveThreshold() }
-
-        findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -6,7 +6,6 @@ import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -44,9 +43,6 @@ class CameraCapture(context: Context) {
                 val provider = cameraProviderFuture.get()
                 cameraProvider = provider
 
-                val preview = Preview.Builder().build()
-                preview.surfaceProvider = { _ -> }
-
                 imageCapture = ImageCapture.Builder()
                     .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                     .build()
@@ -55,7 +51,7 @@ class CameraCapture(context: Context) {
 
                 provider.unbindAll()
                 provider.bindToLifecycle(
-                    lifecycleOwner, cameraSelector, preview, imageCapture
+                    lifecycleOwner, cameraSelector, imageCapture
                 )
 
                 val photoDir = File(appContext.filesDir.absolutePath + "/intruder")

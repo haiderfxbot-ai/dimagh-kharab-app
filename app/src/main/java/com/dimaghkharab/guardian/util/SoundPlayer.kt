@@ -6,7 +6,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import java.io.File
 
-class SoundPlayer(context: Context) {
+class SoundPlayer(private val context: Context) {
 
     private val mediaPlayer: MediaPlayer = MediaPlayer()
 

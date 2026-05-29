@@ -116,7 +116,7 @@ class GuardianService : Service() {
         try {
             val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
             val level = batteryIntent?.getIntExtra("level", 0) ?: return
-            val db = AppDatabase.getDatabase(this)
+            val db = AppDatabase.getInstance(this)
             val thresholds = db.batteryThresholdDao().getActiveThresholds()
             val now = System.currentTimeMillis()
             val todayStart = getTodayStartMillis()
@@ -125,6 +125,7 @@ class GuardianService : Service() {
                 if (threshold.percentage == level && !threshold.triggeredToday) {
                     SoundPlayer(this).play(threshold.filePath, threshold.volume / 100f)
                     threshold.triggeredToday = true
+                    threshold.lastTriggeredAt = now
                     db.batteryThresholdDao().update(threshold)
                     scheduleMidnightReset(threshold.id)
                 } else if (threshold.percentage != level && threshold.triggeredToday) {

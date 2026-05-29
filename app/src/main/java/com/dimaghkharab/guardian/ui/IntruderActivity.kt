@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.data.AppDatabase
 import com.dimaghkharab.guardian.data.entity.IntruderPhoto
 import kotlinx.coroutines.Dispatchers
@@ -48,8 +49,6 @@ class IntruderActivity : AppCompatActivity() {
         btnDeleteAll = findViewById(R.id.btnDeleteAll)
         rvPhotos = findViewById(R.id.rvPhotos)
         emptyState = findViewById(R.id.emptyState)
-
-        findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
 
         photoAdapter = IntruderPhotoAdapter(photos) { photo ->
             showDeleteDialog(photo)

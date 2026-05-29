@@ -32,7 +32,7 @@
             android:textSize="16sp" />
 
         <View
-            android:id="@+id/viewSelected"
+            android:id="@+id/ivCheckmark"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="8dp"

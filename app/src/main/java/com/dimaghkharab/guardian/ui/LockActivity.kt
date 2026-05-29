@@ -7,12 +7,14 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.InputType
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.dimaghkharab.guardian.R
 import com.dimaghkharab.guardian.util.PrefsManager
 import org.mindrot.jbcrypt.BCrypt
 
@@ -41,7 +43,7 @@ class LockActivity : AppCompatActivity() {
         tvAttempts = findViewById(R.id.tvAttempts)
         tvForgot = findViewById(R.id.tvForgot)
         btnUnlock = findViewById(R.id.btnUnlock)
-        keypadContainer = findViewById(R.id.keypadContainer)
+        keypadContainer = findViewById(R.id.gridKeypad)
 
         etPin.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
 
