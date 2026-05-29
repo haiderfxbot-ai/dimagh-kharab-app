@@ -20,14 +20,17 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMinus"
+                style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:backgroundTint="#16213E"
                 android:contentDescription="Decrease"
-                android:src="@android:drawable/ic_menu_close"
-                android:tint="#FFFFFF" />
+                android:text="-"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                app:backgroundTint="#16213E"
+                app:cornerRadius="8dp" />
 
             <TextView
                 android:id="@+id/tvPercentage"
@@ -39,14 +42,17 @@
                 android:textSize="48sp"
                 android:textStyle="bold" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPlus"
+                style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:backgroundTint="#16213E"
                 android:contentDescription="Increase"
-                android:src="@android:drawable/ic_menu_add"
-                android:tint="#FFFFFF" />
+                android:text="+"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                app:backgroundTint="#16213E"
+                app:cornerRadius="8dp" />
 
         </LinearLayout>
 
