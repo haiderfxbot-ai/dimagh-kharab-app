@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A2E"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnMinus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="#16213E"
+                android:contentDescription="Decrease"
+                android:src="@android:drawable/ic_menu_close"
+                android:tint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:text="50%"
+                android:textColor="#FFFFFF"
+                android:textSize="48sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnPlus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="#16213E"
+                android:contentDescription="Increase"
+                android:src="@android:drawable/ic_menu_add"
+                android:tint="#FFFFFF" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekThreshold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:max="99"
+            android:progress="49" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilThresholdName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:boxBackgroundColor="#16213E"
+            app:boxStrokeColor="#6C63FF"
+            app:hintTextColor="#B0B0B0">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etThresholdName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Threshold Name"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#B0B0B0" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSelectAudio"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#6C63FF"
+            android:text="Select Audio"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvAudioPath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            android:textColor="#B0B0B0"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Volume"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:id="@+id/seekVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#6C63FF"
+            android:text="Save"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+</ScrollView>

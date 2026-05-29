@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#6C63FF</color>
+    <color name="primary_dark">#5A52D5</color>
+    <color name="accent">#00C9A7</color>
+    <color name="background_dark">#1A1A2E</color>
+    <color name="surface_dark">#16213E</color>
+    <color name="card_dark">#1E2A45</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="battery_low">#FF4757</color>
+    <color name="battery_med">#FFA502</color>
+    <color name="battery_high">#2ED573</color>
+    <color name="ic_launcher_background">#1A1A2E</color>
+</resources>
