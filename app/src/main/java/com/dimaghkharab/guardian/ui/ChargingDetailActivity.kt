@@ -163,7 +163,7 @@ class ChargingDetailActivity : AppCompatActivity() {
             val filePath = destFile.absolutePath
             selectedFilePath = filePath
             if (!audioFiles.contains(filePath)) {
-                audioFiles.add(0, selectedFilePath)
+                audioFiles.add(0, filePath)
                 saveAudioFilesList()
             }
             audioAdapter?.notifyDataSetChanged()
