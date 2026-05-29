@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
 import com.dimaghkharab.guardian.data.AppDatabase
 import com.dimaghkharab.guardian.data.entity.UsageLog
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -49,7 +50,9 @@ class AccessibilityWatcher : AccessibilityService() {
                 appName = getAppName(previousPackage!!),
                 date = getTodayDate()
             )
-            AppDatabase.getInstance(this).usageLogDao().insert(usageLog)
+            runBlocking {
+                AppDatabase.getInstance(this@AccessibilityWatcher).usageLogDao().insert(usageLog)
+            }
         }
 
         if (currentPackageChanged(packageName)) {

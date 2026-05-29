@@ -26,7 +26,8 @@ class CameraCapture(context: Context) {
     private var cameraProvider: ProcessCameraProvider? = null
     private lateinit var lifecycleRegistry: LifecycleRegistry
     private val lifecycleOwner: LifecycleOwner = object : LifecycleOwner {
-        override fun getLifecycle(): Lifecycle = lifecycleRegistry
+        override val lifecycle: Lifecycle
+            get() = lifecycleRegistry
     }
 
     init {
